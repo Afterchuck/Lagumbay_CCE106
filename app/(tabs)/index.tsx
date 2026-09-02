@@ -1,91 +1,110 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
+import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
-// --- PROPS INTERFACE ---
-interface CounterAppProps {
-  step?: number;
-}
-
-function CounterApp({ step = 1 }: CounterAppProps) {
-  const [count, setCount] = useState<number>(0);
-
-  const handleIncrease = () => {
-    setCount((prevCount) => prevCount + step);
-  };
-
-  const handleDecrease = () => {
-    setCount((prevCount) => {
-      if (prevCount - step < 0) {
-        return 0;
-      }
-      return prevCount - step;
-    });
-  };
-
-  const handleReset = () => {
-    setCount(0);
-  };
-
-  return (
-    <ThemedView style={styles.counterContainer}>
-      <ThemedText type="subtitle" style={styles.appTitle}>
-        Counter App
-      </ThemedText>
-
-      {/* DISPLAY COUNTER VALUE */}
-      <View style={styles.displayBox}>
-        <ThemedText style={styles.displayText}>{count}</ThemedText>
-      </View>
-
-      {/* CONTROL BUTTONS */}
-      <View style={styles.buttonRow}>
-        <TouchableOpacity style={[styles.button, styles.increaseBtn]} onPress={handleIncrease}>
-          <ThemedText style={styles.btnText}>Increase</ThemedText>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.button, styles.decreaseBtn]} onPress={handleDecrease}>
-          <ThemedText style={styles.btnText}>Decrease</ThemedText>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.button, styles.resetBtn]} onPress={handleReset}>
-          <ThemedText style={styles.btnText}>Reset</ThemedText>
-        </TouchableOpacity>
-      </View>
-    </ThemedView>
-  );
-}
-
 export default function HomeScreen() {
+
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
+  const [result, setResult] = useState<string | number>('0');
+
+  const calculate = (operator: string) => {
+
+    if (num1.trim() === '' || num2.trim() === '') {
+      setResult('Please enter both numbers!');
+      return;
+    }
+
+    const val1 = parseFloat(num1);
+    const val2 = parseFloat(num2);
+
+    if (isNaN(val1) || isNaN(val2)) {
+      setResult('Invalid input!');
+      return;
+    }
+
+    if (operator === '/' && val2 === 0) {
+      setResult('Cannot divide by zero!');
+      return;
+    }
+
+    switch (operator) {
+      case '+':
+        setResult(val1 + val2);
+        break;
+      case '-':
+        setResult(val1 - val2);
+        break;
+      case '*':
+        setResult(val1 * val2);
+        break;
+      case '/':
+        setResult(val1 / val2);
+        break;
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.centeredWrapper}>
-        <View style={styles.contentBackground}>
-          <CounterApp step={1} />
-        </View>
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: 'transparent', dark: 'transparent' }}
+      headerImage={<View />}>
+
+      <View style={styles.contentBackground}>  
+        <ThemedView style={styles.calcContainer}>
+          <ThemedText type="subtitle" style={styles.calcTitle}>
+            Simple Calculator
+          </ThemedText>
+
+          <View style={styles.inputRow}>
+            <TextInput
+              style={styles.input}
+              placeholder="0"
+              placeholderTextColor="#888"
+              keyboardType="numeric"
+              value={num1}
+              onChangeText={setNum1}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="0"
+              placeholderTextColor="#888"
+              keyboardType="numeric"
+              value={num2}
+              onChangeText={setNum2}
+            />
+          </View>
+
+          {/* ACTION BUTTONS: Each button passes its corresponding math symbol to calculate() */}
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.button} onPress={() => calculate('+')}>
+              <ThemedText style={styles.btnText}>+</ThemedText>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => calculate('-')}>
+              <ThemedText style={styles.btnText}>-</ThemedText>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => calculate('*')}>
+              <ThemedText style={styles.btnText}>×</ThemedText>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => calculate('/')}>
+              <ThemedText style={styles.btnText}>÷</ThemedText>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.resultBox}>
+            <ThemedText style={styles.resultText}>Result: {result}</ThemedText>
+          </View>
+        </ThemedView>
       </View>
-    </SafeAreaView>
+    </ParallaxScrollView>
   );
 }
 
-// --- COMPONENT STYLING ---
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  // Centering Container: Spans the full height and centers children horizontally & vertically
-  centeredWrapper: {
-    flex: 1,
-    justifyContent: 'center', // Centers vertically on the screen
-    alignItems: 'center',     // Centers horizontally on the screen
-    padding: 16,
-  },
   contentBackground: {
-    width: '100%',
-    maxWidth: 400, // Keeps card at a clean width on larger screens/tablets
-    backgroundColor: '#d82424',
+    backgroundColor: '#ba1515',
     padding: 12,
     borderRadius: 8,
     shadowOffset: { width: 0, height: 2 },
@@ -93,57 +112,60 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  counterContainer: {
-    gap: 16,
+  calcContainer: {
+    gap: 12,
     borderColor: '#37c0d2',
     borderWidth: 1,
     padding: 16,
     borderRadius: 8,
-    alignItems: 'center',
   },
-  appTitle: {
+  calcTitle: {
+    textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
   },
-  displayBox: {
-    width: '100%',
-    height: 120,
-    borderWidth: 1,
-    borderColor: '#fff',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  inputRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
   },
-  displayText: {
-    fontSize: 30,
+  input: {
+    flex: 1,
+    backgroundColor: '#fff',
+    color: '#000',
+    padding: 12,
+    borderRadius: 6,
+    textAlign: 'center',
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
     gap: 8,
   },
   button: {
     flex: 1,
+    backgroundColor: '#37c0d2',
     paddingVertical: 12,
     borderRadius: 6,
     alignItems: 'center',
   },
-  increaseBtn: {
-    backgroundColor: '#81c784',
-  },
-  decreaseBtn: {
-    backgroundColor: '#ffb74d',
-  },
-  resetBtn: {
-    backgroundColor: '#64b5f6',
-  },
   btnText: {
-    color: '#000',
-    fontSize: 14,
+    color: '#fff',
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  resultBox: {
+    borderWidth: 1,
+    borderColor: '#37c0d2',
+    padding: 12,
+    borderRadius: 6,
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  resultText: {
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
