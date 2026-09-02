@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
+// --- PROPS INTERFACE ---
 interface CounterAppProps {
   step?: number;
 }
@@ -34,10 +35,12 @@ function CounterApp({ step = 1 }: CounterAppProps) {
         Counter App
       </ThemedText>
 
+      {/* DISPLAY COUNTER VALUE */}
       <View style={styles.displayBox}>
         <ThemedText style={styles.displayText}>{count}</ThemedText>
       </View>
 
+      {/* CONTROL BUTTONS */}
       <View style={styles.buttonRow}>
         <TouchableOpacity style={[styles.button, styles.increaseBtn]} onPress={handleIncrease}>
           <ThemedText style={styles.btnText}>Increase</ThemedText>
@@ -67,19 +70,21 @@ export default function HomeScreen() {
   );
 }
 
+// --- COMPONENT STYLING ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  // Centering Container: Spans the full height and centers children horizontally & vertically
   centeredWrapper: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'center', // Centers vertically on the screen
+    alignItems: 'center',     // Centers horizontally on the screen
     padding: 16,
   },
   contentBackground: {
     width: '100%',
-    maxWidth: 400,
+    maxWidth: 400, // Keeps card at a clean width on larger screens/tablets
     backgroundColor: '#d82424',
     padding: 12,
     borderRadius: 8,
