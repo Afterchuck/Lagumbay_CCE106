@@ -12,8 +12,10 @@ export type CampusEvent = {
 
 const initialEvents: CampusEvent[] = [
   { id: '1', title: 'CSIT Fest 2026', category: 'Academic', dateTime: 'Sep 20, 2026 · 10:00 AM', venue: 'UM Visayan', availableSlots: 42, joined: false },
-  { id: '2', title: 'Intrams 2026', category: 'Sports', dateTime: 'Sep 22, 2026 · 9:00 AM', venue: 'UM Arellano', availableSlots: 80, joined: true },
-  { id: '3', title: 'AcadFest 2027', category: 'Academic', dateTime: 'May 24, 2027 · 1:00 PM', venue: 'UM Visayan', availableSlots: 25, joined: false },
+  { id: '2', title: 'Intrams Parade 2026', category: 'Campus Life', dateTime: 'Sep 22, 2026 · 9:00 AM', venue: 'UM Arellano', availableSlots: 80, joined: true },
+  { id: '3', title: 'UI/UX Competition', category: 'Academic', dateTime: 'Oct 24, 2027 · 1:00 PM', venue: 'UM Visayan', availableSlots: 30, joined: false },
+  { id: '4', title: 'Database Competition', category: 'Academic', dateTime: 'Oct 24, 2026 · 1:00 PM', venue: 'UM Visayan', availableSlots: 25, joined: false },
+  { id: '5', title: 'CSIT Basketball', category: 'Sports', dateTime: 'Oct 24, 2027 · 1:00 PM', venue: 'UM Visayan', availableSlots: 25, joined: false },
 ];
 
 type EventMateContextValue = {

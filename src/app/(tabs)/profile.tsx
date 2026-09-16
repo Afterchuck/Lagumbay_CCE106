@@ -112,42 +112,53 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  scrollContent: { 
-    flexGrow: 1, 
-    padding: 20 
+  scrollContent: {
+    backgroundColor: '#f4f7fb',
+    flexGrow: 1,
+    padding: 20,
   },
-  container: { 
-    alignSelf: 'center', 
-    gap: 10, 
-    maxWidth: 560, 
-    width: '100%' 
+  container: {
+    alignSelf: 'center',
+    backgroundColor: '#ffffff',
+    borderColor: '#dbeafe',
+    borderRadius: 20,
+    borderWidth: 1,
+    gap: 12,
+    maxWidth: 560,
+    padding: 20,
+    width: '100%',
   },
-  avatar: { 
-    alignSelf: 'center', 
-    borderRadius: 48, 
-    height: 96, 
-    marginBottom: 6, 
-    width: 96 
+  avatar: {
+    alignSelf: 'center',
+    borderColor: '#1d4ed8',
+    borderRadius: 48,
+    borderWidth: 3,
+    height: 96,
+    marginBottom: 6,
+    width: 96,
   },
-  title: { 
-    fontSize: 28, 
-    fontWeight: '800', 
-    textAlign: 'center' 
+  title: {
+    color: '#172554',
+    fontSize: 28,
+    fontWeight: '800',
+    textAlign: 'center',
   },
-  input: { 
-    borderColor: '#9ca3af', 
-    borderWidth: 1, 
-    borderRadius: 8, 
-    padding: 12 
+  input: {
+    backgroundColor: '#f8fafc',
+    borderColor: '#bfdbfe',
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 12,
   },
-  label: { 
-    fontSize: 16, 
-    fontWeight: '600' 
+  label: {
+    color: '#334155',
+    fontSize: 15,
+    fontWeight: '700',
   },
-  message: { 
-    color: '#475569', 
-    marginBottom: 8, 
-    textAlign: 'center' 
+  message: {
+    color: '#64748b',
+    marginBottom: 8,
+    textAlign: 'center',
   },
   error: { 
     color: '#b91c1c', 
@@ -157,12 +168,12 @@ const styles = StyleSheet.create({
     color: '#15803d', 
     fontWeight: '700' 
   },
-  saveButton: { 
-    alignItems: 'center', 
-    backgroundColor: '#1d4ed8', 
-    borderRadius: 10, 
-    marginTop: 8, 
-    padding: 14 
+  saveButton: {
+    alignItems: 'center',
+    backgroundColor: '#1d4ed8',
+    borderRadius: 12,
+    marginTop: 8,
+    padding: 14,
   },
   disabledButton: { 
     backgroundColor: '#94a3b8' 

@@ -16,6 +16,12 @@ export function StatCard({ label, value, style }: StatCardProps) {
 }
 
 const styles = StyleSheet.create({
-  card: { backgroundColor: '#eff6ff', borderLeftColor: '#1d4ed8', borderLeftWidth: 5, borderRadius: 12, padding: 16 },
-  value: { fontSize: 28, fontWeight: '700' },
+  card: {
+    backgroundColor: '#ffffff',
+    borderColor: '#dbeafe',
+    borderWidth: 1,
+    borderRadius: 14,
+    padding: 16,
+  },
+  value: { color: '#1d4ed8', fontSize: 28, fontWeight: '800', marginBottom: 4 },
 });
