@@ -48,6 +48,14 @@ export default function HomeScreen() {
             <Text style={styles.buttonText}>Browse Events</Text>
           </Pressable>
         </Link>
+
+        <Link href="/lab08" asChild>
+          <Pressable
+            accessibilityRole="link"
+            style={({ pressed }) => [styles.attendanceButton, pressed && styles.pressed]}>
+            <Text style={styles.buttonText}>Open Attendance List</Text>
+          </Pressable>
+        </Link>
       </View>
     </ScrollView>
   );
@@ -113,6 +121,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#1d4ed8',
     borderRadius: 12,
     marginTop: 4,
+    padding: 14,
+  },
+  attendanceButton: {
+    alignItems: 'center',
+    backgroundColor: '#15803d',
+    borderRadius: 12,
     padding: 14,
   },
   buttonText: {

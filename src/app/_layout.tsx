@@ -16,6 +16,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="event/[id]" options={{ title: 'Event Details' }} />
+          <Stack.Screen name="lab08" options={{ title: 'Lab 08 Attendance' }} />
         </Stack>
       </EventMateProvider>
     </ThemeProvider>
