@@ -24,22 +24,6 @@ export const Colors = {
   },
 } as const;
 
-export const PortalColors = {
-  background: '#FFFDF7',
-  surface: '#FFFFFF',
-  ink: '#25324A',
-  body: '#4C5A70',
-  muted: '#6D7280',
-  blue: '#275DAD',
-  blueTint: '#DCEBFF',
-  blueBorder: '#B6D0F6',
-  goldTint: '#FFE8A3',
-  teal: '#0F8A9D',
-  tealTint: '#D8F3E7',
-  border: '#E5DED2',
-  softBorder: '#EEE8DD',
-} as const;
-
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 
 export const Fonts = Platform.select({
