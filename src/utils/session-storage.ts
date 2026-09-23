@@ -4,10 +4,9 @@ import * as SecureStore from 'expo-secure-store';
 const SESSION_KEY = 'quoteapp.student.session';
 
 export async function readSessionToken() {
-  if (Platform.OS === 'web') {
-    return typeof window === 'undefined' ? null : window.sessionStorage.getItem(SESSION_KEY);
-  }
-  return SecureStore.getItemAsync(SESSION_KEY);
+  return Platform.OS === 'web'
+    ? (typeof window === 'undefined' ? null : window.sessionStorage.getItem(SESSION_KEY))
+    : SecureStore.getItemAsync(SESSION_KEY);
 }
 
 export async function saveSessionToken(token: string) {

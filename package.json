@@ -35,12 +35,12 @@
     "typescript": "~6.0.3"
   },
   "scripts": {
-    "start": "expo start",
+    "start": "node scripts/dev.js",
     "backend": "node server/index.js",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "android": "node scripts/dev.js --android",
+    "ios": "node scripts/dev.js --ios",
+    "web": "node scripts/dev.js --web",
     "lint": "expo lint"
   },
   "private": true

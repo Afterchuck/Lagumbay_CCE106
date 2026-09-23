@@ -2,30 +2,21 @@ const http = require('node:http');
 const { randomUUID } = require('node:crypto');
 
 const PORT = Number(process.env.PORT) || 3001;
+const demoStudent = { name: 'Johnrie O. Lagumbay', email: 'j.lagumbay.141683.tc@umindanao.edu.ph', studentNumber: '141683', program: 'Bachelor of Science in Information Technology', yearLevel: '3rd Year' };
+const sessions = new Map();
 let quotes = [
-  { id: '1', content: 'The secret of getting ahead is getting started.', author: 'Mark Twain' },
+  { id: '1', content: 'If your hungry, eat.', author: 'Monkey D. Luffy' },
   { id: '2', content: 'It always seems impossible until it is done.', author: 'Nelson Mandela' },
   { id: '3', content: 'Great things are done by a series of small things brought together.', author: 'Vincent van Gogh' },
   { id: '4', content: 'Believe you can and you’re halfway there.', author: 'Theodore Roosevelt' },
 ];
-const demoStudent = {
-  id: 'student-001',
-  name: 'Alex Morgan',
-  email: 'student@campus.edu',
-  studentNumber: '2026-10428',
-  program: 'Bachelor of Science in Information Technology',
-  yearLevel: '3rd Year',
-};
-const demoPassword = 'Student123!';
-const sessions = new Map();
-const SESSION_DURATION_MS = 30 * 60 * 1000;
 
 function sendJson(response, status, data) {
   response.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, Accept',
   });
   response.end(JSON.stringify(data, null, 2));
 }
@@ -47,7 +38,7 @@ const server = http.createServer(async (request, response) => {
     response.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, Accept',
     });
     return response.end();
   }
@@ -57,42 +48,23 @@ const server = http.createServer(async (request, response) => {
 
   if (request.method === 'GET' && path === '/') {
     return sendJson(response, 200, {
-      name: 'Quote and Student API',
+      name: 'Student Portal',
       status: 'ok',
-      endpoints: ['/api/quotes', '/api/quotes/random', '/api/auth/login', '/api/auth/me', '/api/auth/logout'],
+      endpoints: ['/api/quotes', '/api/quotes/random', '/api/auth/login', '/api/auth/me'],
     });
   }
   if (request.method === 'POST' && path === '/api/auth/login') {
     try {
       const body = await readJson(request);
-      const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
-      const password = typeof body.password === 'string' ? body.password : '';
-      if (email !== demoStudent.email || password !== demoPassword) {
-        return sendJson(response, 401, { error: 'Email or password is incorrect.' });
-      }
-      const token = randomUUID();
-      const expiresAt = new Date(Date.now() + SESSION_DURATION_MS).toISOString();
-      sessions.set(token, Date.parse(expiresAt));
-      return sendJson(response, 200, { token, tokenType: 'Bearer', expiresAt });
-    } catch (error) {
-      return sendJson(response, 400, { error: error.message });
-    }
+      if (String(body.email || '').trim().toLowerCase() !== demoStudent.email || body.password !== 'lagumbay') return sendJson(response, 401, { error: 'Email or password is incorrect.' });
+      const token = randomUUID(); sessions.set(token, Date.now() + 30 * 60 * 1000);
+      return sendJson(response, 200, { token });
+    } catch { return sendJson(response, 400, { error: 'Invalid request.' }); }
   }
-  if (path === '/api/auth/me' || path === '/api/auth/logout') {
-    const authorization = request.headers.authorization || '';
-    const token = authorization.match(/^Bearer\s+(.+)$/i)?.[1];
-    const expiresAtMs = token ? sessions.get(token) : undefined;
-    if (!token || expiresAtMs === undefined || expiresAtMs <= Date.now()) {
-      if (token) sessions.delete(token);
-      return sendJson(response, 401, { error: 'Session is invalid or expired. Sign in again.' });
-    }
-    if (request.method === 'GET' && path === '/api/auth/me') {
-      return sendJson(response, 200, { student: demoStudent, expiresAt: new Date(expiresAtMs).toISOString() });
-    }
-    if (request.method === 'POST' && path === '/api/auth/logout') {
-      sessions.delete(token);
-      return sendJson(response, 200, { message: 'Signed out successfully.' });
-    }
+  if (request.method === 'GET' && path === '/api/auth/me') {
+    const token = (request.headers.authorization || '').match(/^Bearer\s+(.+)$/i)?.[1];
+    if (!token || !sessions.get(token) || sessions.get(token) <= Date.now()) return sendJson(response, 401, { error: 'Session is invalid or expired.' });
+    return sendJson(response, 200, { student: demoStudent });
   }
   if (request.method === 'GET' && path === '/api/quotes') {
     return sendJson(response, 200, { quotes, count: quotes.length });
