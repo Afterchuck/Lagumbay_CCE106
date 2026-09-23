@@ -54,3 +54,33 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# Temporary Quotes API
+
+Start the local API in a terminal:
+
+```bash
+npm run backend
+```
+
+It listens on port `3001`. In Postman, use `http://localhost:3001` as the base URL.
+Quotes are stored in memory and reset to the starter list whenever the server restarts.
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| GET | `/` | API status and endpoint list |
+| GET | `/api/quotes` | List all quotes |
+| GET | `/api/quotes/random` | Get one random quote |
+| GET | `/api/quotes/:id` | Get a quote by ID |
+| POST | `/api/quotes` | Add a quote |
+| DELETE | `/api/quotes/:id` | Delete a quote |
+
+For `POST /api/quotes`, choose **Body → raw → JSON** and send:
+
+```json
+{
+  "content": "The journey of a thousand miles begins with one step.",
+  "author": "Lao Tzu"
+}
+```
+
+The server binds to `0.0.0.0` so another device on the same network can reach it. Use your computer's local network IP instead of `localhost` on that device, and ensure the firewall permits port `3001`.
