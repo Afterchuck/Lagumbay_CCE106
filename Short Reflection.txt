@@ -1,0 +1,5 @@
+1. SecureStore encrypts the token using the OS's secure storage, so other apps, backups, or anyone copying the app's files can't read it. Plain-text storage like AsyncStorage saves it unencrypted, so anyone who accesses the files gets a token that works like a password.
+
+2. It sends the access token with a request so the server knows who you are and can allow or reject access to protected data.
+
+3. Delete the stored token, clear the user state, and send the user back to the login screen so they can sign in again.
